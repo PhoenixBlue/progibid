@@ -2,30 +2,69 @@
 export default {
   data() {
     return {
+      arVehicleTypes: ["Luxury", "Common"],
       sVType: '',
-      message: 'Hello Vue!'
+      nBasicFee: 0,
+      nVariableCost: 0,
+      nSellerFee: 0,
+      nAddedCost: 0,
+      nStorageFee: 100,
+      nTotalCost: 0,
     }
   },
     methods: {
         refreshMessage() {
-            if (this.sVType) {
-                fetch("/api/bidder/" + this.sVType, {"method": "GET"})
+            if (this.stype) {
+                fetch("/api/bidder/" + this.sVType + "/" + this.nBasicFee, {"method": "GET"})
                 .then(response => response.json())
                 .then(data => {
                     this.message = data
                 })
             } 
+        },
+        updateValues() {
+            this.nTotalCost = this.nBasicFee + this.nVariableCost + 
+                              this.nSellerFee + this.nAddedCost + this.nStorageFee
         }
     },
     watch: {
-        sVType: function() {
+        stype: function() {
             this.refreshMessage()
+        },
+        nBasicFee: function(oldValue, newValue) {
+            if (!parseFloat(this.nBasicFee)) {
+                this.nBasicFee = 0
+            } 
+            this.updateValues()
         }
     }
 }
-</script>
 
+</script>
 <template>
-    <input type="text" v-model="sVType">
-    <h1 v-show="!!message">{{ message }}</h1>
+    <p>
+        <label>Vehicle type:</label>
+        <select v-model="sVType">
+            <option disabled value>Select here</option>
+            <option v-for="vType in arVehicleTypes">{{ vType }}</option>
+        </select>
+    </p>
+    <p>
+        <label>Basic fee:</label>
+        <input idtype="number" v-model.number="nBasicFee">
+    </p>
+    <p>
+        <label>Variable cost: {{ nVariableCost }}</label>
+    </p>
+    <p>
+        <label>Seller fee: {{ nSellerFee }}</label>
+    </p>
+    <p>
+        <label>Added cost: {{ nAddedCost }}</label>
+    </p>
+    <p>
+        <label>Storage fee: {{ nStorageFee }}</label>
+    </p>
+
+    <h1>Total cost: {{ nTotalCost }}</h1>
 </template>
