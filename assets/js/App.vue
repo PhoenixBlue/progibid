@@ -13,25 +13,27 @@ export default {
     }
   },
     methods: {
-        refreshMessage() {
-            if (this.stype) {
+        updateValues() {
+            if (this.sVType) {
                 fetch("/api/bidder/" + this.sVType + "/" + this.nBasicFee, {"method": "GET"})
                 .then(response => response.json())
                 .then(data => {
-                    this.message = data
+                    this.nBasicFee = data.basicFee;
+                    this.nVariableCost = data.variableCost;
+                    this.nSellerFee = data.sellerFee;
+                    this.nAddedCost = data.addedCost;
+                    this.nTotalCost = data.totalCost;
                 })
             } 
         },
-        updateValues() {
-            this.nTotalCost = this.nBasicFee + this.nVariableCost + 
-                              this.nSellerFee + this.nAddedCost + this.nStorageFee
-        }
+
     },
     watch: {
-        stype: function() {
-            this.refreshMessage()
+        sVType: function() {
+            this.updateValues()
         },
         nBasicFee: function(oldValue, newValue) {
+            // TODO: fix numerical value only
             if (!parseFloat(this.nBasicFee)) {
                 this.nBasicFee = 0
             } 
