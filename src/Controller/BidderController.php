@@ -59,12 +59,12 @@ final class BidderController extends AbstractController
         
         return new JsonResponse([
             'type' => $sVType,
-            'basicFee' => $nBasicFee,
-            'variableCost' => $variableCost,
-            'sellerFee' => $sellerFee,
-            'addedCost' => $addedCost,
-            'storageFee' => 100.0,
-            'totalCost' => $totalFee
+            'basicFee' => round($nBasicFee, 2),
+            'variableCost' => round($variableCost, 2),
+            'sellerFee' => round($sellerFee, 2),
+            'addedCost' => round($addedCost, 2),
+            'storageFee' => 100.00,
+            'totalCost' => round($totalFee, 2)
         ]);
     }
 }
