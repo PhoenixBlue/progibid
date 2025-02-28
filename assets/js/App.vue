@@ -51,29 +51,41 @@ export default {
 </script>
 
 <template>
-    <p>
-        <label>Vehicle type:</label>
-        <select v-model="sVType">
-            <option disabled value>Select here</option>
-            <option v-for="vType in arVehicleTypes">{{ vType }}</option>
-        </select>
-    </p>
-    <p>
-        <label>Basic fee:</label>
-        <input idtype="number" v-model.number="nBasicFee" @keypress="isNumber($event)"></input>
-    </p>
-    <p>
-        <label>Variable cost: {{ nVariableCost }}</label>
-    </p>
-    <p>
-        <label>Seller fee: {{ nSellerFee }}</label>
-    </p>
-    <p>
-        <label>Added cost: {{ nAddedCost }}</label>
-    </p>
-    <p>
-        <label>Storage fee: {{ nStorageFee }}</label>
-    </p>
+    <table>
+        <tbody>
+            <tr>
+                <td>Vehicle type:</td>
+                <td>       
+                    <select v-model="sVType">
+                        <option disabled value>Select here</option>
+                        <option v-for="vType in arVehicleTypes">{{ vType }}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Basic fee:</td>
+                <td> 
+                    <input idtype="number" v-model.number="nBasicFee" @keypress="isNumber($event)"></input>
+                </td>
+            </tr>
+            <tr>
+                <td>Variable cost:</td>
+                <td>{{ nVariableCost }}</td>
+            </tr>
+            <tr>
+                <td>Seller fee:</td>
+                <td>{{ nSellerFee }}</td>
+            </tr>
+            <tr>
+                <td>Added cost:</td>
+                <td>{{ nAddedCost }}</td>
+            </tr>
+            <tr>
+                <td>Storage fee:</td>
+                <td>{{ nStorageFee }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <h1>Total cost: {{ nTotalCost }}</h1>
+    <h2>Total cost: {{ nTotalCost }}</h2>
 </template>
