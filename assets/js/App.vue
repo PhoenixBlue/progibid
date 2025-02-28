@@ -14,6 +14,9 @@ export default {
   },
     methods: {
         updateValues() {
+            if(!this.nBasicFee) {
+                this.nBasicFee = 0;
+            }
             if (this.sVType) {
                 fetch("/api/bidder/" + this.sVType + "/" + this.nBasicFee, {"method": "GET"})
                 .then(response => response.json())
@@ -26,23 +29,27 @@ export default {
                 })
             } 
         },
+        isNumber: function (evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                evt.preventDefault();
+            }
+            return true;
+        }
 
     },
     watch: {
         sVType: function() {
             this.updateValues()
         },
-        nBasicFee: function(oldValue, newValue) {
-            // TODO: fix numerical value only
-            if (!parseFloat(this.nBasicFee)) {
-                this.nBasicFee = 0
-            } 
+        nBasicFee: function() { 
             this.updateValues()
         }
     }
 }
-
 </script>
+
 <template>
     <p>
         <label>Vehicle type:</label>
@@ -53,7 +60,7 @@ export default {
     </p>
     <p>
         <label>Basic fee:</label>
-        <input idtype="number" v-model.number="nBasicFee">
+        <input idtype="number" v-model.number="nBasicFee" @keypress="isNumber($event)"></input>
     </p>
     <p>
         <label>Variable cost: {{ nVariableCost }}</label>

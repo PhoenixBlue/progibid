@@ -51,7 +51,12 @@ final class BidderController extends AbstractController
         }
         
         // TODO: fix for value of $nBasicFee = 0
-        $totalFee = $nBasicFee + $variableCost + $sellerFee + $addedCost + 100.0;
+        if ($nBasicFee == 0) {
+            $totalFee = 0;
+        } else {
+            $totalFee = $nBasicFee + $variableCost + $sellerFee + $addedCost + 100.0;
+        }
+        
         return new JsonResponse([
             'type' => $sVType,
             'basicFee' => $nBasicFee,
